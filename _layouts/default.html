@@ -2,12 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/main.css">
-    {%- feed_meta -%}
     {%- if jekyll.environment == 'production' and site.google_analytics -%}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
@@ -19,17 +13,65 @@
         gtag('config', '{{ site.google_analytics }}');
     </script>
     {%- endif -%}
+
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {%- seo -%}
+    {%- feed_meta -%}
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/css/normalize.min.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
-    <div id="root">
-        {{ content }}
+    <main>
+        <header>
+            <p>{{ site.title }}</p>
+            <span>{{ site.description }}</span>
+        </header>
+        <nav>
+            <a href="/">Home</a>
+            {%- for page in site.pages -%}
+            {% if page.title %}
+            <a href="{{ page.url | relative_url }}">{{ page.title | escape }}</a>
+            {% endif %}
+            {%- endfor -%}
+        </nav>
+
+        <article>
+            {%- assign date_format = site.date_format | default: "%b %-d, %Y" -%}
+            {%- if page.title -%}
+            <span>{{ page.date | date: date_format }}</span>
+            <h1>{{ page.title }}</h1>
+            {%- endif -%}
+            {{ content }}
+        </article>
 
         <footer>
-            <hr/>
-            <p>Theme v0.1</p>
+            <article>
+                {{ site.title }}
+                {{ site.description }}
+                <ul>
+                    <li><a href="https://github.com/hesenger" target="_blank" rel="noopener noreferrer">GitHub
+                            Profile</a></li>
+                    <li><a href="https://twitter.com/hesenger" target="_blank" rel="noopener noreferrer">Twitter
+                            Profile</a></li>
+                </ul>
+            </article>
+            <article>
+                Developed and hosted using
+                <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>,
+                <a href="https://jekyllrb.com/" target="_blank" rel="noopener noreferrer">Jekyll</a>
+                and <a href="https://github.com/hesenger/hesenger-theme" target="_blank" rel="noopener noreferrer">my
+                    custom theme</a>.
+            </article>
         </footer>
-    </div>
+    </main>
 </body>
 
 </html>
